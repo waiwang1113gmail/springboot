@@ -1,0 +1,36 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<title>My Example</title>
+<meta name="description" content="Example">
+<link rel="stylesheet"
+	href="components/bootstrap/dist/css/bootstrap.css">
+<style type="text/css">
+[ng\:cloak], [ng-cloak], .ng-cloak {
+	display: none !important;
+}
+</style>
+<!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body ng-app="hello" ng-cloak class="ng-cloak">
+	<div ng-controller="navigation as nav" class="container">
+		<ul class="nav nav-pills" role="tablist">
+			<li class="active"><a href="#/">home</a></li>
+			<li><a href="#/login">login</a></li>
+			<li ng-show="authenticated"><a href="" ng-click="nav.logout()">logout</a></li>
+		</ul>
+	</div>
+	<div ng-view class="container"></div>
+	<script src="components/jquery/dist/jquery.js"></script>
+	<script src="components/angular/angular.js"></script>
+	<script src="components/angular-route/angular-route.js"></script>
+	<script src="components/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="js/main.js"></script> 
+</body>
+</html>
