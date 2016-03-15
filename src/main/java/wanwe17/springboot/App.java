@@ -34,8 +34,7 @@ public class App
 					.and()
 					.authorizeRequests()
 					.antMatchers("/app.html", "/home.html",
-							"/login.html", "/").permitAll().anyRequest()
-					.authenticated();
+							"/login.html", "/").permitAll();
 		}
 	}
     
