@@ -11,6 +11,10 @@ angular
 						templateUrl : 'login.html',
 						controller : 'navigation',
 						controllerAs : 'controller'
+					}).when('/register', {
+						templateUrl : 'registerForm.html',
+						controller : 'register',
+						controllerAs : 'controller'
 					}).otherwise('/');
 
 					$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
@@ -20,13 +24,29 @@ angular
 			$http.get('/resource/').success(function(data) {
 				self.greeting = data;
 			})
+		}).controller('register', function($http) {
+			var self = this;
+			self.user = {}; 
+			var register = function(user,callback){ 
+				$http.post("register", user).success(function(data, status) {
+		            callback && callback(data,status);
+		        });
+			}
+			self.submit=function(){
+				register(self.user,function(data,status){
+					console.log(data);
+					console.log(status);
+				});
+				
+				
+			}
 		}).controller(
 				'navigation',
 
 				function($rootScope, $http, $location) {
 
 					var self = this
-
+						
 					var authenticate = function(credentials, callback) {
 
 						var headers = credentials ? {
@@ -59,7 +79,7 @@ angular
 								$location.path("/");
 								self.error = false;
 							} else {
-								$location.path("/login");
+								$location.path("/j_spring_security_logout");
 								self.error = true;
 							}
 						});

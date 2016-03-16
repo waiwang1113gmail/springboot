@@ -23,6 +23,7 @@
 		<ul class="nav nav-pills" role="tablist">
 			<li class="active"><a href="#/">home</a></li>
 			<li><a href="#/login">login</a></li>
+			<li ng-show="!authenticated"><a href="#/register">register</a></li>
 			<li ng-show="authenticated"><a href="" ng-click="nav.logout()">logout</a></li>
 		</ul>
 	</div>

@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -52,8 +53,8 @@ public class App {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.httpBasic().and().authorizeRequests()
-					.antMatchers("/app.html", "/home.html", "/login.html", "/")
-					.permitAll().anyRequest().authenticated().and()
+					.antMatchers("/app.html", "/home.html", "/login.html","/register.html", "/")
+					.permitAll().and()
 					.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
 					.csrf().csrfTokenRepository(csrfTokenRepository());
 		}
@@ -74,6 +75,17 @@ public class App {
 		driverManagerDataSource.setUsername("waiwang1113");
 		driverManagerDataSource.setPassword("password");
 		return driverManagerDataSource;
+	
 	}
-
+	
+	
+	
+	@Bean(name = "jdbcTemplate")
+	@Autowired
+	public JdbcTemplate userJdbcTemplate(DriverManagerDataSource dataSource) {
+		JdbcTemplate t= new JdbcTemplate();
+		t.setDataSource(dataSource);
+		return t;
+	
+	}
 }
