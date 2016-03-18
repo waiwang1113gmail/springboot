@@ -69,6 +69,7 @@ angular
 						$http.get('user', {
 							headers : headers
 						}).success(function(data) {
+							console.log(JSON.stringify(data));
 							if (data.name) {
 								$rootScope.authenticated = true;
 							} else {
