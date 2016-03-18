@@ -24,18 +24,29 @@ angular
 			$http.get('/resource/').success(function(data) {
 				self.greeting = data;
 			})
-		}).controller('register', function($http) {
+		}).controller('register', function($rootScope,$http,$location) {
 			var self = this;
 			self.user = {}; 
 			var register = function(user,callback){ 
 				$http.post("register", user).success(function(data, status) {
 		            callback && callback(data,status);
+		        }).error(function(data, status) {
+		            callback && callback(data,status);
 		        });
 			}
+			self.error=false;
+			self.errorMsg="ERROR";
 			self.submit=function(){
 				register(self.user,function(data,status){
-					console.log(data);
 					console.log(status);
+					if(status !==200){
+						console.log("Ddsadsa");
+						self.error=true;
+						self.errorMsg=data;
+					}else{
+						$rootScope.authenticated = true;
+						$location.path("/");
+					}
 				});
 				
 				
