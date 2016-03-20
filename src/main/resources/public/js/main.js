@@ -1,5 +1,5 @@
 angular
-		.module('hello', [ 'ngRoute' ])
+		.module('hello', [ 'ngRoute','appServices'])
 		.config(
 				function($routeProvider, $httpProvider) {
 
@@ -24,7 +24,20 @@ angular
 			$http.get('/resource/').success(function(data) {
 				self.greeting = data;
 			})
-		}).controller('register', function($rootScope,$http,$location) {
+		}).controller('ApplicationController', function($scope,USER_ROLES,AuthService,Session){
+		
+			$scope.currentUser =null;
+			$scope.userRoles = USER_ROLES; 
+			$scope.authenticated=false;
+			$scope.setCurrentUser = function (user) {
+			    $scope.currentUser = user;
+			};
+			AuthService.authenticate(null,function(){
+				$scope.authenticated=AuthService.isAuthenticated();
+				$scope.isAuthorized = AuthService.isAuthorized;
+			});
+		})
+		.controller('register', function($rootScope,$http,$location) {
 			var self = this;
 			self.user = {}; 
 			var register = function(user,callback){ 
@@ -86,8 +99,9 @@ angular
 					authenticate();
 					self.credentials = {};
 					self.login = function() {
-						authenticate(self.credentials, function() {
-							if ($rootScope.authenticated) {
+						AuthService.authenticate(self.credentials, function() {
+							if (Session.isAuthenticated()) { 
+								$scope.authenticated=AuthService.isAuthenticated();
 								$location.path("/");
 								self.error = false;
 							} else {
@@ -95,10 +109,11 @@ angular
 								self.error = true;
 							}
 						});
-					};
+					}; 
+					  
 					self.logout = function() {
 						  $http.post('logout', {}).finally(function() {
-						    $rootScope.authenticated = false;
+							Session.destroy();
 						    $location.path("/");
 						  });
 						}
