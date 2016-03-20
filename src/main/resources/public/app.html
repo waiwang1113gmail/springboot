@@ -18,7 +18,7 @@
   <![endif]-->
 </head>
 
-<body ng-app="hello" ng-cloak class="ng-cloak">
+<body ng-app="hello" ng-cloak class="ng-cloak" data-ng-controller="ApplicationController">
 	<div ng-controller="navigation as nav" class="container">
 		<ul class="nav nav-pills" role="tablist">
 			<li class="active"><a href="#/">home</a></li>
@@ -32,6 +32,7 @@
 	<script src="components/angular/angular.js"></script>
 	<script src="components/angular-route/angular-route.js"></script>
 	<script src="components/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="js/services.js"></script> 
 	<script src="js/main.js"></script> 
 </body>
 </html>
