@@ -53,7 +53,7 @@ public class App {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.httpBasic().and().authorizeRequests()
-					.antMatchers("/app.html", "/home.html", "/login.html","/register.html", "/","/components/**")
+					.antMatchers("/facebook.html","/app.html", "/home.html", "/login.html","/register.html", "/","/components/**","/images/**")
 					.permitAll().anyRequest().authenticated().and()
 					.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
 					.csrf().csrfTokenRepository(csrfTokenRepository());
