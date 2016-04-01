@@ -1,5 +1,7 @@
 package wanwe17.springboot;
 
+import java.io.File;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +27,15 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
  */
 @SpringBootApplication
 public class App {
-
+	public static final String MEDIA_PATH="src/main/resources/public/videos";
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
 		ApplicationContext ctx = SpringApplication.run(App.class, args);
+		JdbcTemplate jdbcTemplate=(JdbcTemplate) ctx.getBean("jdbcTemplate");
+		File path = new File(MEDIA_PATH);
+		for(File v:path.listFiles()){
+			
+		}
 	}
 
 	@Configuration
@@ -53,7 +60,7 @@ public class App {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.httpBasic().and().authorizeRequests()
-					.antMatchers("/app.html", "/home.html", "/login.html","/register.html", "/","/components/**")
+					.antMatchers("/facebook.html","/app.html", "/home.html", "/login.html","/register.html", "/","/components/**","/images/**")
 					.permitAll().anyRequest().authenticated().and()
 					.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
 					.csrf().csrfTokenRepository(csrfTokenRepository());
@@ -77,6 +84,8 @@ public class App {
 		return driverManagerDataSource;
 	
 	}
+	
+	
 	
 	
 	

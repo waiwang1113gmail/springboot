@@ -27,7 +27,7 @@ angular.module('appServices',[])
 		                       res.data.principal.authorities.map(function(v){return v.authority;}));
 					
 				}
-				callback&&callback();
+				callback&&callback(res.data.name);
 				return res.data.name;
 			});
 		}
@@ -40,6 +40,14 @@ angular.module('appServices',[])
 			}
 			return (authService.isAuthenticated() && 
 					authorizedRoles.indexOf(Session.userRole) !== -1);
+		}
+		authService.logout=function(callback){
+			console.log("logout");
+			$http.post('logout', {}).finally(function() {
+				console.log("logout callback");
+				Session.destroy();
+				callback&&callback();
+			  });
 		}
 		return authService;		
 	}]).service('Session',function(){

@@ -32,3 +32,11 @@ END//
 
 CREATE USER 'waiwang1113'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON * . * TO 'waiwang1113'@'localhost';
+
+
+CREATE TABLE `springboot`.`videos` (
+  `name` VARCHAR(50) NOT NULL,
+  `frame` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`name`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC),
+  UNIQUE INDEX `frame_UNIQUE` (`frame` ASC));

@@ -28,14 +28,13 @@ angular
 		
 			$scope.currentUser =null;
 			$scope.userRoles = USER_ROLES; 
-			$scope.authenticated=false;
+			$scope.authenticated=false; 
 			$scope.setCurrentUser = function (user) {
+				console.log(user);
 			    $scope.currentUser = user;
+			    $scope.authenticated=!!user;
 			};
-			AuthService.authenticate(null,function(){
-				$scope.authenticated=AuthService.isAuthenticated();
-				$scope.isAuthorized = AuthService.isAuthorized;
-			});
+			AuthService.authenticate(null,$scope.setCurrentUser);
 		})
 		.controller('register', function($rootScope,$http,$location) {
 			var self = this;
@@ -52,8 +51,7 @@ angular
 			self.submit=function(){
 				register(self.user,function(data,status){
 					console.log(status);
-					if(status !==200){
-						console.log("Ddsadsa");
+					if(status !==200){ 
 						self.error=true;
 						self.errorMsg=data;
 					}else{
@@ -66,42 +64,13 @@ angular
 			}
 		}).controller(
 				'navigation',
-
-				function($rootScope, $http, $location) {
-
+				function($rootScope, $http, $location,AuthService,$scope,Session) {
 					var self = this
-						
-					var authenticate = function(credentials, callback) {
-
-						var headers = credentials ? {
-							authorization : "Basic "
-									+ btoa(credentials.username + ":"
-											+ credentials.password)
-						} : {};
-
-						$http.get('user', {
-							headers : headers
-						}).success(function(data) {
-							console.log(JSON.stringify(data));
-							if (data.name) {
-								$rootScope.authenticated = true;
-							} else {
-								$rootScope.authenticated = false;
-							}
-							callback && callback();
-						}).error(function() {
-							$rootScope.authenticated = false;
-							callback && callback();
-						});
-
-					}
-
-					authenticate();
 					self.credentials = {};
 					self.login = function() {
-						AuthService.authenticate(self.credentials, function() {
-							if (Session.isAuthenticated()) { 
-								$scope.authenticated=AuthService.isAuthenticated();
+						AuthService.authenticate(self.credentials, function(user) {
+							if (AuthService.isAuthenticated()) { 
+								$scope.setCurrentUser(user);
 								$location.path("/");
 								self.error = false;
 							} else {
@@ -112,9 +81,9 @@ angular
 					}; 
 					  
 					self.logout = function() {
-						  $http.post('logout', {}).finally(function() {
-							Session.destroy();
-						    $location.path("/");
-						  });
-						}
+						AuthService.logout(function(){
+							$scope.setCurrentUser(null);
+							$location.path("/");
+						});	 
+					}
 				});

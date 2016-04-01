@@ -39,6 +39,7 @@ public class Controller {
 		return user;
 	}
 	
+	
 	@Autowired
 	JdbcTemplate tmpl;
 	
