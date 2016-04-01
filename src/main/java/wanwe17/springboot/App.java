@@ -1,7 +1,5 @@
 package wanwe17.springboot;
 
-import java.io.File;
-
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,16 +25,12 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
  * 
  */
 @SpringBootApplication
+@EnableScheduling
 public class App {
 	public static final String MEDIA_PATH="src/main/resources/public/videos";
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
 		ApplicationContext ctx = SpringApplication.run(App.class, args);
-		JdbcTemplate jdbcTemplate=(JdbcTemplate) ctx.getBean("jdbcTemplate");
-		File path = new File(MEDIA_PATH);
-		for(File v:path.listFiles()){
-			
-		}
 	}
 
 	@Configuration
